@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Dark UI Subject Switch</title>
+
+<style>
+  body{
+    margin:0;
+    padding:0;
+    background:#0b0f13;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial, sans-serif;
+    color:white;
+  }
+
+  .card{
+    background:#111822;
+    padding:25px;
+    width:350px;
+    max-width:90vw; /* ✅ makes responsive */
+    border-radius:16px;
+    box-shadow:0 0 25px rgba(0,0,0,.6);
+  }
+
+  h2{
+    margin:0 0 20px 0;
+    text-align:center;
+    font-size:1.4rem;
+  }
+
+  .item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:14px 0;
+    padding:12px;
+    background:#141c27;
+    border-radius:10px;
+    transition:0.2s;
+  }
+
+  .item:hover{
+    background:#1a2331;
+    transform:translateY(-2px);
+  }
+
+  /* Switch Style */
+  .switch{
+    position:relative;
+    width:48px;
+    height:24px;
+    flex-shrink:0;
+  }
+
+  .switch input{
+    width:0;
+    height:0;
+    opacity:0;
+  }
+
+  .slider{
+    position:absolute;
+    cursor:pointer;
+    background:#444;
+    border-radius:34px;
+    top:0; left:0; right:0; bottom:0;
+    transition:.3s;
+  }
+
+  .slider:before{
+    content:"";
+    position:absolute;
+    width:20px; height:20px;
+    background:white;
+    border-radius:50%;
+    top:2px; left:3px;
+    transition:.3s;
+  }
+
+  /* ON State */
+  input:checked + .slider{
+    background:#7c5cff;
+  }
+  input:checked + .slider:before{
+    transform:translateX(23px);
+  }
+
+  /* ✅ Responsive Text & Spacing for Small Screens */
+  @media(max-width:480px){
+    .card{ padding:18px; }
+    h2{ font-size:1.2rem; }
+    .item{ padding:10px; }
+    .switch{ width:42px; height:22px; }
+    .slider:before{ width:18px; height:18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Select Subjects (Auto Adjust)</h2>
+
+  <div class="item">
+    <span>Math</span>
+    <label class="switch">
+      <input type="checkbox" class="sub" id="math">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="item">
+    <span>Chemistry</span>
+    <label class="switch">
+      <input type="checkbox" class="sub" id="chem">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="item">
+    <span>Physics</span>
+    <label class="switch">
+      <input type="checkbox" class="sub" id="phy">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+</div>
+
+<script>
+  const subs = document.querySelectorAll(".sub");
+
+  subs.forEach(sw=>{
+    sw.addEventListener("change", ()=>{
+      let onSubs = [...subs].filter(s=>s.checked);
+
+      // If more than 2 are ON → turn off one randomly
+      if(onSubs.length > 2){
+        let others = onSubs.filter(s => s !== sw);
+        let randomOff = others[Math.floor(Math.random() * others.length)];
+        randomOff.checked = false;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
